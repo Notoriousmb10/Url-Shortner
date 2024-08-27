@@ -1,15 +1,17 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const urlRoute = require("./routes/url");
-const connectToMongoDB = require('./connect')
-
+import express from "express";
+import router from "./routes/routes.js";
+import { connectToMongoDB } from "./connections/mongoConnection.js";
 const app = express();
 const PORT = 8001;
+app.use(express.json());
 
+app.use("/url", router);
+connectToMongoDB("mongodb://127.0.0.1:27017/short -url").then(() =>
+  console.log("MongoDB Connected :)")
+);
+app.post("/test", (req, res) => {
+  console.log("Test Body:", req.body.headers);
+  res.json({ received: req.body });
+});
 
-app.use("/url", urlRoute);
-
-connectToMongoDB('mongodb://localhost:27017/short-url')
-.then(()=> console.log('MongoDB connected :)'))
-
-app.listen(PORT, () => console.log(`The server started at port ${PORT}`));
+app.listen(PORT, () => console.log(`Server Started At Port ${8001}`));

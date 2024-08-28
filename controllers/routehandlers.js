@@ -29,7 +29,7 @@ export async function generateShortURL(req, res) {
 }
 
 export async function redirectToURL(req, res) {
-  const shortid = req.params.shortid
+  const shortid = req.params.shortid;
   const entry = await URL.findOneAndUpdate(
     {
       shortid,
@@ -43,4 +43,26 @@ export async function redirectToURL(req, res) {
     }
   );
   res.status(200).redirect(entry.redirectURL);
+}
+
+export async function getAnalyticsOfURL(req, res) {
+  try {
+    const shortid = req.params.shortid;
+    console.log('The requested shortid is:', shortid)
+    const dataentry = await URL.findOne({
+      shortid,
+    });
+    if(!dataentry){
+      return res.status(404).json({error : 'URL not found :('})
+    }
+    const numberofvisits = dataentry.visitHistory.length;
+
+    res.status(200).send(`
+    <p>The Number of visit for this site is :</p> <button>
+    ${numberofvisits}
+    </button>
+    `);
+  } catch (error) {
+    res.status(500).json({ error: "Something went wrong" });
+  }
 }

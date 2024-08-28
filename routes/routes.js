@@ -1,8 +1,10 @@
 import express from "express";
 
 const router = express.Router();
-import { generateShortURL } from "../controllers/routehandlers.js";
+import { generateShortURL, redirectToURL } from "../controllers/routehandlers.js";
 
 router.post("/", generateShortURL);
+
+router.get("/:shortid", redirectToURL);
 
 export default router;

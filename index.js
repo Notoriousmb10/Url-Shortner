@@ -5,13 +5,12 @@ const app = express();
 const PORT = 8001;
 app.use(express.json());
 
-app.use("/url", router);
-connectToMongoDB("mongodb://127.0.0.1:27017/short -url").then(() =>
+app.use("/", router);
+connectToMongoDB("mongodb://127.0.0.1:27017/shorturl").then(() =>
   console.log("MongoDB Connected :)")
 );
-app.post("/test", (req, res) => {
-  console.log("Test Body:", req.body.headers);
-  res.json({ received: req.body });
-});
 
 app.listen(PORT, () => console.log(`Server Started At Port ${8001}`));
+
+
+//C:\Program Files\MongoDB\Server\7.0\bin\mongosh\bin

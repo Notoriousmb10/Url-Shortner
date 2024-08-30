@@ -1,6 +1,4 @@
 import { Schema, model } from "mongoose";
-import express from "express";
-import shortid from "shortid";
 
 const urlSchema = Schema(
   {

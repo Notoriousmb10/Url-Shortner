@@ -20,13 +20,16 @@ export async function generateShortURL(req, res) {
       redirectURL: body.url,
       visitHistory: [],
     });
-
+    const allData = await URL.find({})
+    console.log(allData)
     return res.status(201).json({ id: smallId });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Something went wrong" });
   }
 }
+
+
 
 export async function redirectToURL(req, res) {
   const shortid = req.params.shortid;
@@ -40,28 +43,30 @@ export async function redirectToURL(req, res) {
           timestamps: Date.now(),
         },
       },
-    }
+    },
+    { new: true }
   );
+
+  if (!entry) {
+    return res.status(404).json({ error: "Short URL not found :(" });
+  }
+
   res.status(200).redirect(entry.redirectURL);
 }
 
 export async function getAnalyticsOfURL(req, res) {
   try {
     const shortid = req.params.shortid;
-    console.log('The requested shortid is:', shortid)
+
     const dataentry = await URL.findOne({
       shortid,
     });
-    if(!dataentry){
-      return res.status(404).json({error : 'URL not found :('})
+    if (!dataentry) {
+      return res.status(404).json({ error: "URL not found :(" });
     }
     const numberofvisits = dataentry.visitHistory.length;
 
-    res.status(200).send(`
-    <p>The Number of visit for this site is :</p> <button>
-    ${numberofvisits}
-    </button>
-    `);
+    res.status(200).render("analytics", { numberofvisits });
   } catch (error) {
     res.status(500).json({ error: "Something went wrong" });
   }

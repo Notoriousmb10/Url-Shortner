@@ -1,4 +1,5 @@
 import express from "express";
+import path from 'path'
 import router from "./routes/routes.js";
 import { connectToMongoDB } from "./connections/mongoConnection.js";
 const app = express();
@@ -9,7 +10,8 @@ app.use("/", router);
 connectToMongoDB("mongodb://127.0.0.1:27017/shorturl").then(() =>
   console.log("MongoDB Connected :)")
 );
-
+app.set('view engine', 'ejs')
+app.set('views', path.resolve('./views'))
 app.listen(PORT, () => console.log(`Server Started At Port ${8001}`));
 
 

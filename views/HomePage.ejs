@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Page Title</title>
-  </head>
-  <body>
-    <form action="/homepage">
-      <div>
-        <h1>URL Shortner</h1>
-        <p>Enter The URL To Short</p>
-        <input placeholder="url" type="text" />
-        <button>Short</button>
-      </div>
+<head>
+  <title>URL Shortener</title>
+</head>
+<body>
+  <div>
+    <h1>URL Shortener</h1>
+    <p>Enter The URL To Short</p>
+    <form action="/homepage" method="POST">
+      <input name="url" placeholder="Enter URL" type="text" required />
+      <button type="submit">Shorten</button>
     </form>
-    <div>
-      <p>The Shorten URL is</p>
-      <p>SHORT URL</p>
-    </div>
-  </body>
+  </div>
+  <div>
+    <p>The Shortened URL is</p>
+    <p id="shortedURL">
+      <a href='<%= shortURL %>'><%= shortURL %></a>
+    </p>
+  </div>
+</body>
 </html>

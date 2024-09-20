@@ -5,9 +5,11 @@ import {
   generateShortURL,
   redirectToURL,
   getAnalyticsOfURL,
+  showHomePage
 } from "../controllers/routehandlers.js";
 
-router.post("/", generateShortURL);
+router.get("/homepage", showHomePage);
+router.post("/homepage", generateShortURL);
 
 router.get("/:shortid", redirectToURL);
 

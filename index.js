@@ -1,13 +1,14 @@
 import express from "express";
 import path from 'path'
 import router from "./routes/routes.js";
+import bodyParser from 'body-parser';
 import { connectToMongoDB } from "./connections/mongoConnection.js";
 const app = express();
 const PORT = 8001;
-app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use("/", router);
-connectToMongoDB("mongodb://127.0.0.1:27017/shorturl").then(() =>
+connectToMongoDB("mongodb://127.0.0.1:27017/url-store").then(() =>
   console.log("MongoDB Connected :)")
 );
 app.set('view engine', 'ejs')

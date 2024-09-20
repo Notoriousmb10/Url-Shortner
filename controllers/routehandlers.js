@@ -3,11 +3,9 @@ import URL from "../models/schema.js";
 
 export async function generateShortURL(req, res) {
   try {
-    console.log("Request Body:", req.body); // Debugging line
+    const { url } = req.body;
 
-    const { body } = req;
-
-    if (!body || !body.url) {
+    if (!url ) {
       // Added check for body
       return res.status(400).json({ error: "URL is required :(" });
     }
@@ -17,19 +15,24 @@ export async function generateShortURL(req, res) {
 
     await URL.create({
       shortid: smallId,
-      redirectURL: body.url,
+      redirectURL: url,
       visitHistory: [],
     });
-    const allData = await URL.find({})
-    console.log(allData)
-    return res.status(201).json({ id: smallId });
+    // const allData = await URL.find({});
+    // console.log(allData);
+
+    const fullShortURL = `http://localhost:8001/${smallId}`;
+    console.log('Generated short URL:', fullShortURL);
+    return res.status(201).render('homepage', { shortURL : fullShortURL });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Something went wrong" });
   }
 }
 
-
+export async function showHomePage(req, res) {
+  return res.status(200).render("homepage");
+}
 
 export async function redirectToURL(req, res) {
   const shortid = req.params.shortid;

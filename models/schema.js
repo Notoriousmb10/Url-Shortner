@@ -21,6 +21,6 @@ const urlSchema = Schema(
   { timestamps: true }
 );
 
-const URL = model('url', urlSchema);
+const URL = model('shorties', urlSchema);
 
 export default URL;
